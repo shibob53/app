@@ -1,6 +1,6 @@
-from flask import Flask
+from flask import Flask, request, jsonify
 import time 
-import request
+#import request
 app = Flask(__name__)
 
 listd={}
