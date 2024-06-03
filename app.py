@@ -36,6 +36,7 @@ def c(user):
   st=user+','+u+','+s
   #d.get("https://sakani.sa/app/authentication/login")
   r.set(user, st)#{"u":u,"s":s})
+  print(type(r[user]))
   return r[user]
 
 def g(u):
@@ -112,3 +113,4 @@ def login(n_id,password):
     
 if __name__ == '__main__':
     app.run(debug=True)
+
