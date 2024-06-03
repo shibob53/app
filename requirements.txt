@@ -1,4 +1,4 @@
 flask
 gunicorn
-requests
-redis
+selenium
+beautifulsoup4
