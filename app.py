@@ -30,7 +30,9 @@ redis_url ="redis://:p5347bec6bfe2865a7483552281f975cfcaa86dd4e13d7d69761ca839d4
 r = redis.Redis.from_url(redis_url)
 
 def c(user):
-    r.set(user, driversetup())
+  d =driversetup()
+  d.get("https://sakani.sa/app/authentication/login")
+  r.set(user, d)
 
 def g(u):
     return r[u].current_url
