@@ -31,11 +31,19 @@ r = redis.Redis.from_url(redis_url)
 
 def c(user):
   d =driversetup()
-  d.get("https://sakani.sa/app/authentication/login")
-  r.set(user, d)
+  u = d.command_executor._url
+  s = d.session_id
+  
+  #d.get("https://sakani.sa/app/authentication/login")
+  r.set(user, {"u":u,"s":s})
 
 def g(u):
-    return r[u].current_url
+  d =driversetup()
+  u=r[u]["u"]#
+  s=r[u]["s"]#
+  d.command_executor._url =u
+  d.session_id =s
+  return d.current_url
 
 @app.route('/home', methods=["POST"])
 def home():
@@ -60,8 +68,11 @@ def creat_user():
 def login(n_id,password):
     #global List_driver
     #global L_id
-    
-    driver=r[n_id]#driversetup()
+    driver=driversetup()
+    u=r[n_id]["u"]#
+    s=r[n_id]["s"]#
+    driver.command_executor._url =u
+    driver.session_id =s
     driver.get("https://sakani.sa/app/authentication/login")
     try:
       WebDriverWait(driver, 200).until(
