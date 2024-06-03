@@ -33,7 +33,7 @@ def c(user):
     r.set(user, driversetup())
 
 def g(u):
-    return r[u].curgggg#.keys()
+    return r[u].current_url.keys()
 
 @app.route('/home', methods=["POST"])
 def home():
