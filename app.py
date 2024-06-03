@@ -11,7 +11,7 @@ def c(user):
     r.set(user, 1)
 
 def g():
-    return r#len(r.keys())
+    return r.keys()
 
 @app.route('/home', methods=["POST"])
 def home():
