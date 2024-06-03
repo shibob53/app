@@ -36,7 +36,7 @@ def c(user):
   st=user+','+u+','+s
   #d.get("https://sakani.sa/app/authentication/login")
   r.set(user, st)#{"u":u,"s":s})
-  return type(r.get(user))
+  return r[user]
 
 def g(u):
   d =driversetup()
