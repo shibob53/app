@@ -8,15 +8,16 @@ redis_url ="redis://:p5347bec6bfe2865a7483552281f975cfcaa86dd4e13d7d69761ca839d4
 r = redis.Redis.from_url(redis_url)
 
 def c(user):
-    r.set(user, 1)
+    r.set(user, "1"+user)
 
-def g():
-    return r.keys()
+def g(u):
+    return r[u]#.keys()
 
 @app.route('/home', methods=["POST"])
 def home():
     data = request.get_json()
-    return str(g())
+    u = data["user"]
+    return g(u)
 
 @app.route('/add', methods=['POST'])
 def add():
