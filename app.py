@@ -30,12 +30,12 @@ redis_url ="redis://:p5347bec6bfe2865a7483552281f975cfcaa86dd4e13d7d69761ca839d4
 r = redis.Redis.from_url(redis_url)
 
 def c(user):
-  d =driversetup()
-  u = d.command_executor._url
-  s = d.session_id
+  #d =driversetup()
+  #u = d.command_executor._url
+  #s = d.session_id
   
   #d.get("https://sakani.sa/app/authentication/login")
-  r.set(user, {"u":u,"s":s})
+  r.set(user, "ggg")#{"u":u,"s":s})
 
 def g(u):
   d =driversetup()
