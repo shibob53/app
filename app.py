@@ -1,28 +1,29 @@
-#from flask import Flask
-from flask import Flask, request, jsonify
-import time 
-#import request
+from flask import Flask, request
+import redis
+
 app = Flask(__name__)
 
-listd={}
+# إعداد الاتصال ب Redis
+redis_url ="redis://:p5347bec6bfe2865a7483552281f975cfcaa86dd4e13d7d69761ca839d4d8641d@ec2-44-207-232-130.compute-1.amazonaws.com:14739"
+r = redis.Redis.from_url(redis_url)
 
 def c(user):
-  #global listd
-  listd[user]=1 
-def g():
-  #global listd
-  return len(listd)
+    r.set(user, 1)
 
-@app.route('/home',methods=["POST"])
+def g():
+    return len(r.keys())
+
+@app.route('/home', methods=["POST"])
 def home():
-  #data = request.get_json()
-  #u = data["user"]
-  return len(listd)
+    data = request.get_json()
+    return str(g())
+
 @app.route('/add', methods=['POST'])
 def add():
-  data = request.get_json()
-  u = data["user"]
-  listd[u]=1 
-  return "ok"
+    data = request.get_json()
+    u = data["user"]
+    c(u)
+    return "ok"
+
 if __name__ == '__main__':
     app.run(debug=True)
