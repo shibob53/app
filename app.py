@@ -10,12 +10,12 @@ def c(user):
   listd[user]=1 
 def g():
   return len(listd)
-@app.route('/home1',methods=["GET"])
-def home1():
-    return g()  
+
 @app.route('/home',methods=["POST"])
 def home():
-    return g()#"Hello, اتحداك تشغله"
+  data = request.get_json()
+  u = data["user"]
+  return str(g())#"Hello, اتحداك تشغله"
 @app.route('/add', methods=['POST'])
 def add():
   data = request.get_json()
