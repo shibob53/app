@@ -34,19 +34,19 @@ def c(user):
   u = d.command_executor._url
   s = d.session_id
   st=user+','+u+','+s
-  #d.get("https://sakani.sa/app/authentication/login")
+  d.get("https://sakani.sa/app/authentication/login")
   r.set(user, st)#{"u":u,"s":s})
-  print(type(r[user].decode("utf-8")))
+  #print(type(r[user].decode("utf-8")))
   return r[user].decode("utf-8")
 
-def g(u):
+def g(u,s,r):
   d =driversetup()
-  sl=r[u]#["u"]#
-  sl =sl.decode("utf-8")
-  sv = sl.split(',')
-  u=sv[1]
-  s= sv[2]
-  d.command_executor._url =u
+  #sl=r[u]#["u"]#
+  #sl =sl.decode("utf-8")
+  #sv = sl.split(',')
+  #u=sv[1]
+  #s= sv[2]
+  d.command_executor._url =r
   d.session_id =s
   return d.current_url
 
@@ -54,7 +54,9 @@ def g(u):
 def home():
     data = request.get_json()
     u = data["user"]
-    return g(u)
+    r = data["r"]
+    s= data["s"]
+    return g(u,s,r)
 
 @app.route('/add', methods=['POST'])
 def add():
