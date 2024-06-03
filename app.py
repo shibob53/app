@@ -1,3 +1,4 @@
+#from flask import Flask
 from flask import Flask, request, jsonify
 import time 
 #import request
@@ -9,7 +10,10 @@ def c(user):
   listd[user]=1 
 def g():
   return len(listd)
-@app.route('/')
+@app.route('/home1',methods=["GET"])
+def home1():
+    return g()  
+@app.route('/home',methods=["POST"])
 def home():
     return g()#"Hello, اتحداك تشغله"
 @app.route('/add', methods=['POST'])
