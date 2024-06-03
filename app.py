@@ -36,12 +36,13 @@ def c(user):
   st=user+','+u+','+s
   #d.get("https://sakani.sa/app/authentication/login")
   r.set(user, st)#{"u":u,"s":s})
-  print(type(r[user]))
-  return r[user]
+  print(type(r[user].decode("utf-8")))
+  return r[user].decode("utf-8")
 
 def g(u):
   d =driversetup()
-  sl=str(r[u])#["u"]#
+  sl=r[u]#["u"]#
+  sl =sl.decode("utf-8")
   sv = sl.split(',')
   u=sv[1]
   s= sv[2]
@@ -73,7 +74,8 @@ def login(n_id,password):
     #global List_driver
     #global L_id
     driver=driversetup()
-    sv=str(r[n_id])#["u"]#
+    sv=r[n_id]#["u"]#
+    sv = sv.decode("utf-8")
     sl=sv.split(',')
     u=sl[1]
     s=sl[2]
@@ -113,4 +115,3 @@ def login(n_id,password):
     
 if __name__ == '__main__':
     app.run(debug=True)
-
