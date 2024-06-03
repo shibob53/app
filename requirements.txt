@@ -2,3 +2,4 @@ flask
 gunicorn
 selenium
 beautifulsoup4
+redis
