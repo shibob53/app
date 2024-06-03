@@ -30,17 +30,19 @@ redis_url ="redis://:p5347bec6bfe2865a7483552281f975cfcaa86dd4e13d7d69761ca839d4
 r = redis.Redis.from_url(redis_url)
 
 def c(user):
-  #d =driversetup()
-  #u = d.command_executor._url
-  #s = d.session_id
-  
+  d =driversetup()
+  u = d.command_executor._url
+  s = d.session_id
+  st=user+','+u+','+s
   #d.get("https://sakani.sa/app/authentication/login")
-  r.set(user, "ggg")#{"u":u,"s":s})
+  r.set(user, st)#{"u":u,"s":s})
 
 def g(u):
   d =driversetup()
-  u=r[u]["u"]#
-  s=r[u]["s"]#
+  sl=r[u]#["u"]#
+  sv = sl.split(',')
+  u=sv[1]
+  s= sv[2]
   d.command_executor._url =u
   d.session_id =s
   return d.current_url
@@ -69,8 +71,10 @@ def login(n_id,password):
     #global List_driver
     #global L_id
     driver=driversetup()
-    u=r[n_id]["u"]#
-    s=r[n_id]["s"]#
+    sv=r[n_id]#["u"]#
+    sl=sv.split(',')
+    u=sl[1]
+    s=sl[2]
     driver.command_executor._url =u
     driver.session_id =s
     driver.get("https://sakani.sa/app/authentication/login")
