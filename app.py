@@ -36,10 +36,11 @@ def c(user):
   st=user+','+u+','+s
   #d.get("https://sakani.sa/app/authentication/login")
   r.set(user, st)#{"u":u,"s":s})
+  return type(r[user])
 
 def g(u):
   d =driversetup()
-  sl=r[u]#["u"]#
+  sl=str(r[u])#["u"]#
   sv = sl.split(',')
   u=sv[1]
   s= sv[2]
@@ -57,8 +58,8 @@ def home():
 def add():
     data = request.get_json()
     u = data["user"]
-    c(u)
-    return "ok"
+    cr = c(u)
+    return cr
 
 
 @app.route('/creat_user', methods=['POST'])
@@ -71,7 +72,7 @@ def login(n_id,password):
     #global List_driver
     #global L_id
     driver=driversetup()
-    sv=r[n_id]#["u"]#
+    sv=str(r[n_id])#["u"]#
     sl=sv.split(',')
     u=sl[1]
     s=sl[2]
