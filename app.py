@@ -7,8 +7,10 @@ app = Flask(__name__)
 listd={}
 
 def c(user):
+  global listd
   listd[user]=1 
 def g():
+  global listd
   return len(listd)
 
 @app.route('/home',methods=["POST"])
