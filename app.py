@@ -1,96 +1,59 @@
 from flask import Flask, request, jsonify
+import time
+import random
+import logging
 from selenium import webdriver
-#from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-import threading
-import pickle
-import os
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from flask_executor import Executor
+import redis
+import json
+
 
 app = Flask(__name__)
-
-# المسار لحفظ جلسات المستخدمين
-SESSIONS_DIR = "sessions"
-if not os.path.exists(SESSIONS_DIR):
-    os.makedirs(SESSIONS_DIR)
-
-def login_user(username, password):
+def driversetup():
     options = webdriver.ChromeOptions()
-    options.add_argument('--headless')
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    options.add_argument('--headless')  # Run Selenium in headless mode
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+    options.add_argument("lang=en")
+    options.add_argument("start-maximized")
+    options.add_argument("disable-infobars")
+    options.add_argument("--disable-extensions")
+    options.add_argument("--incognito")
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    driver = webdriver.Chrome(options=options)
+    driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined});")
+    return driver
     
-    try:
-        # استبدل هذا بالرابط الفعلي لموقع تسجيل الدخول
-        driver.get("https://sakani.sa/app/authentication/login")
-        
-        '''# قم بإضافة كود التفاعل مع عناصر الصفحة لتسجيل الدخول
-        username_input = driver.find_element(By.ID, "username")
-        password_input = driver.find_element(By.ID, "password")
-        login_button = driver.find_element(By.ID, "loginButton")
-        
-        username_input.send_keys(username)
-        password_input.send_keys(password)
-        login_button.click()
-        
-        # انتظر حتى يتم تسجيل الدخول بنجاح (يمكنك تحسين هذه الخطوة بفحص معين)
-        driver.implicitly_wait(10)'''
-        
-        # حفظ جلسة المستخدم
-        session_file = os.path.join(SESSIONS_DIR, f"{username}_session.pkl")
-        with open(session_file, 'wb') as f:
-            pickle.dump(driver.get_cookies(), f)
-        
-        return {'status': 'Login successful'}
+d=driversetup()
+d1=driversetup()
+d2=driversetup()
+@app.route('/user', methods=["POST"])
+def user():
+  data = request.get_json()
+  y = data['d']
+  u = data['u']
+  if y=='d':
+    d.get(u)
+  if y=='d1':
+    d1.get(u)
+  if y=='d2':
+    d2.get(u)
     
-    except Exception as e:
-        return {'error': str(e)}
-    
-    finally:
-        driver.quit()
+  return "Ok"
 
-def get_session(username):
-    session_file = os.path.join(SESSIONS_DIR, f"{username}_session.pkl")
-    if os.path.exists(session_file):
-        with open(session_file, 'rb') as f:
-            cookies = pickle.load(f)
-            return cookies
-    return None
-
-@app.route('/login', methods=['POST'])
-def login():
-    data = request.json
-    users = data.get('users', [])
-    
-    if not users or not isinstance(users, list):
-        return jsonify({'error': 'A list of users is required'}), 400
-    
-    threads = []
-    results = []
-
-    def login_wrapper(username, password):
-        result = login_user(username, password)
-        results.append({'username': username, 'result': result})
-
-    for user in users:
-        username = user.get('username')
-        password = user.get('password')
-        if username and password:
-            thread = threading.Thread(target=login_wrapper, args=(username, password))
-            threads.append(thread)
-            thread.start()
-
-    for thread in threads:
-        thread.join()
-    
-    return jsonify(results), 200
-
-@app.route('/session/<username>', methods=['GET'])
-def get_user_session(username):
-    cookies = get_session(username)
-    if cookies:
-        return jsonify({'username': username, 'session': cookies})
-    return jsonify({'error': 'Session not found'}), 404
-
+@app.route('/na', methods=["POST"])
+def na():
+  data = request.get_json()
+  y = data['d']
+  if y=='d':
+    return d.current_url
+  if y=='d1':
+    return d1.current_url
+  if y=='d2':
+    return d2.current_url
+   
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True)  
