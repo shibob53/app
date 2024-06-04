@@ -27,7 +27,8 @@ def driversetup():
     browserstack_username = os.getenv('BROWSERSTACK_USERNAME')
     browserstack_access_key = os.getenv('BROWSERSTACK_ACCESS_KEY')
     
-    desired_cap = {
+    desired_capabilities = options.to_capabilities()
+    desired_capabilities.update({
         'os': 'Windows',
         'os_version': '10',
         'browser': 'Chrome',
@@ -39,14 +40,15 @@ def driversetup():
         'browserstack.debug': 'true',
         'browserstack.console': 'errors',
         'browserstack.networkLogs': 'true'
-    }
+    })
 
     driver = webdriver.Remote(
         command_executor='https://hub-cloud.browserstack.com/wd/hub',
-        desired_capabilities=desired_cap
+        desired_capabilities=desired_capabilities
     )
     driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined});")
     return driver
+
 
 # إعداد الاتصال ب Redis
 redis_url ="redis://:p5347bec6bfe2865a7483552281f975cfcaa86dd4e13d7d69761ca839d4d8641d@ec2-44-207-232-130.compute-1.amazonaws.com:14739"
