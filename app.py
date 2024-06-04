@@ -28,7 +28,7 @@ def driversetup():
     return driver
     
 d=driversetup()
-#d1=driversetup()
+d1=driversetup()
 @app.route('/user', methods=["POST"])
 def user():
   data = request.get_json()
@@ -36,8 +36,8 @@ def user():
   u = data['u']
   if y=='d':
     d.get(u)
-#  if y=='d1':
- #   d1.get(u)
+  if y=='d1':
+    d1.get(u)
  # if y=='d2':
   #  d2.get(u)
     
@@ -49,8 +49,8 @@ def na():
   y = data['d']
   if y=='d':
     return d.current_url
-#  if y=='d1':
-  #  return d1.current_url
+  if y=='d1':
+    return d1.current_url
   #if y=='d2':
   #  return d2.current_url
    
