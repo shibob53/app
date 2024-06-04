@@ -29,7 +29,7 @@ def driversetup():
     
 d=driversetup()
 #d1=driversetup()
-#@app.route('/user', methods=["POST"])
+@app.route('/user', methods=["POST"])
 def user():
   data = request.get_json()
   y = data['d']
