@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from selenium import webdriver
-#from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -22,7 +22,7 @@ def login_user(username, password):
     
     try:
         # استبدل هذا بالرابط الفعلي لموقع تسجيل الدخول
-        driver.get("https://example.com/login")
+        driver.get("https://sakani.sa/app/authentication/login")
         
         '''# قم بإضافة كود التفاعل مع عناصر الصفحة لتسجيل الدخول
         username_input = driver.find_element(By.ID, "username")
