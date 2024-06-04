@@ -33,43 +33,46 @@ def c(user):
   d =driversetup()
   d.get("https://sakani.sa/app/authentication/login")
   time.sleep(5)
-  #u = d.command_executor._url
-  #s = d.session_id
-  f = driversetup()
+  u = d.command_executor._url
+  s = d.session_id
+  return u,s
+  #f = driversetup()
   #st=user+','+u+','+s
   
-  f.command_executor._url =d.command_executor._url
-  f.session_id =d.session_id
-  return f.current_url
+  #f.command_executor._url =d.command_executor._url
+  #f.session_id =d.session_id
+  #return f.current_url
   #r.set(user, st)#{"u":u,"s":s})
   #print(type(r[user].decode("utf-8")))
   #return #r[user].decode("utf-8")
 
-def g(u,s,r):
-  d =driversetup()
+def g(u,s):
+  f =driversetup()
+  f.command_executor._url = u
+  f.session_id = s
   #sl=r[u]#["u"]#
   #sl =sl.decode("utf-8")
   #sv = sl.split(',')
   #u=sv[1]
   #s= sv[2]
-  d.command_executor._url =r
-  d.session_id =s
-  return d.current_url
+  #d.command_executor._url =r
+  #d.session_id =s
+  return f.current_url
 
 @app.route('/home', methods=["POST"])
 def home():
     data = request.get_json()
-    u = data["user"]
-    r = data["r"]
+    u = data["u"]
+    #r = data["r"]
     s= data["s"]
-    return g(u,s,r)
+    return g(u,s)
 
 @app.route('/add', methods=['POST'])
 def add():
     data = request.get_json()
-    u = data["user"]
-    cr = c(u)
-    return cr
+    us = data["user"]
+    u,s = c(us)
+    return jsonify(u=u,s=s)
 
 
 @app.route('/creat_user', methods=['POST'])
