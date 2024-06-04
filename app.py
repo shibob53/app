@@ -31,13 +31,19 @@ r = redis.Redis.from_url(redis_url)
 
 def c(user):
   d =driversetup()
-  u = d.command_executor._url
-  s = d.session_id
-  st=user+','+u+','+s
   d.get("https://sakani.sa/app/authentication/login")
-  r.set(user, st)#{"u":u,"s":s})
+  time.sleep(5)
+  #u = d.command_executor._url
+  #s = d.session_id
+  f = driversetup()
+  #st=user+','+u+','+s
+  
+  f.command_executor._url =d.command_executor._url
+  f.session_id =d.session_id
+  return f.current_url
+  #r.set(user, st)#{"u":u,"s":s})
   #print(type(r[user].decode("utf-8")))
-  return r[user].decode("utf-8")
+  #return #r[user].decode("utf-8")
 
 def g(u,s,r):
   d =driversetup()
