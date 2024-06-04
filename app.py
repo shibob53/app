@@ -13,7 +13,9 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your_secret_key')
 
 # إعداد اتصال Redis
-redis_url = os.getenv('REDIS_URL', 'your_redis_url')
+#redis_url = os.getenv('REDIS_URL', '')
+redis_url ="redis://:p5347bec6bfe2865a7483552281f975cfcaa86dd4e13d7d69761ca839d4d8641d@ec2-44-207-232-130.compute-1.amazonaws.com:14739"
+#r = redis.Redis.from_url(redis_url)# استبدل
 r = redis.Redis.from_url(redis_url)
 
 # إعداد Flask-Login
