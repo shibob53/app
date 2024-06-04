@@ -9,11 +9,12 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
-
+import os
 app = Flask(__name__)
+
 def driversetup():
     options = webdriver.ChromeOptions()
-    options.add_argument('--headless')  # Run Selenium in headless mode
+    options.add_argument('--headless')
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument("lang=en")
@@ -22,9 +23,31 @@ def driversetup():
     options.add_argument("--disable-extensions")
     options.add_argument("--incognito")
     options.add_argument("--disable-blink-features=AutomationControlled")
-    driver = webdriver.Chrome(options=options)
+    
+    browserstack_username = os.getenv('BROWSERSTACK_USERNAME')
+    browserstack_access_key = os.getenv('BROWSERSTACK_ACCESS_KEY')
+    
+    desired_cap = {
+        'os': 'Windows',
+        'os_version': '10',
+        'browser': 'Chrome',
+        'browser_version': 'latest',
+        'name': 'Heroku Test',
+        'build': 'Flask-Selenium',
+        'browserstack.user': browserstack_username,
+        'browserstack.key': browserstack_access_key,
+        'browserstack.debug': 'true',
+        'browserstack.console': 'errors',
+        'browserstack.networkLogs': 'true'
+    }
+
+    driver = webdriver.Remote(
+        command_executor='https://hub-cloud.browserstack.com/wd/hub',
+        desired_capabilities=desired_cap
+    )
     driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined});")
     return driver
+
 # إعداد الاتصال ب Redis
 redis_url ="redis://:p5347bec6bfe2865a7483552281f975cfcaa86dd4e13d7d69761ca839d4d8641d@ec2-44-207-232-130.compute-1.amazonaws.com:14739"
 r = redis.Redis.from_url(redis_url)
