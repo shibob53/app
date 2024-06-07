@@ -43,11 +43,11 @@ def creat_user():
 def creat_sms():
   data = request.get_json()
   sms = data['sms']
-  url = "https://sakani.sa/app/land-projects/"+data['url']
-  res = sms_code(sms)
+  #url = "https://sakani.sa/app/land-projects/"+data['url']
+  #res = sms_code(sms)
   #if res ==200:
     #res = land(url)
-  return jsonify(res=res),100
+  return jsonify(res=sms),100
 
 #@app.route('/creat_land', methods=['POST'])  
 #def creat_land():
