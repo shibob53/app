@@ -47,7 +47,7 @@ def creat_sms():
   #res = sms_code(sms)
   #if res ==200:
     #res = land(url)
-  return jsonify(res=sms),100
+  return jsonify(res=sms)
 
 #@app.route('/creat_land', methods=['POST'])  
 #def creat_land():
